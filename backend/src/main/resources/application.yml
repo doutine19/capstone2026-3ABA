@@ -1,0 +1,37 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: local
+  datasource:
+    username: root
+    password: "1234"
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+---
+# 1. 로컬 실행용 (설치하신 3307 포트 적용)
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3307/user_db
+
+---
+# 2. 도커 배포용 (도커 네트워크 환경에 따라 포트 확인 필요)
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://db:3307/user_db
